@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Swal from 'sweetalert2'
 
 const Formulario = () => {
 
@@ -15,6 +16,14 @@ const Formulario = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
+        if(!nombre.trim()){
+            Swal.fire({
+                title: 'Error!',
+                text: 'No deje el nombre en blanco',
+                icon: 'error',
+              })
+            return
+        }
     }
 
     const handleChange = e => {
