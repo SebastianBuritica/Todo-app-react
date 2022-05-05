@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Swal from 'sweetalert2'
+import { v4 as uuidv4 } from 'uuid';
 
-const Formulario = () => {
+const Formulario = ({agregarTodo}) => {
 
     const initialState = {
-        nombre: '',
-        descripcion: '',
+        nombre: 'todo 1',
+        descripcion: 'descripcion 1',
         estado: 'pendiente',
         prioridad: 'false'
     }
@@ -17,6 +18,7 @@ const Formulario = () => {
     const handleSubmit = e => {
         e.preventDefault()
         if(!nombre.trim()){
+            e.target[0].focus()
             Swal.fire({
                 title: 'Error!',
                 text: 'No deje el nombre en blanco',
@@ -24,6 +26,31 @@ const Formulario = () => {
               })
             return
         }
+        if(!descripcion.trim()) {
+            e.target[0].focus()
+            Swal.fire({
+                title: 'Error!',
+                text: 'No deje el nombre en blanco',
+                icon: 'error',
+              })
+              return
+        }
+
+        Swal.fire({
+            title: 'Exito',
+            text: 'Tarea agregada',
+            icon: 'success',
+          })
+
+          agregarTodo({
+              nombre: nombre,
+              descripcion: descripcion,
+              estado: estado === 'pendiente' ? false : true,
+              prioridad: prioridad,
+              id: uuidv4()
+          })
+
+          setTodo(initialState)
     }
 
     const handleChange = e => {
@@ -79,7 +106,7 @@ const Formulario = () => {
             <label 
             className="form-check-label" 
             htmlFor="flexCheckDefault">
-                Default checkbox
+                Prioritario
             </label>
             </div>
 
